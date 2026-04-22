@@ -20,6 +20,8 @@ public class PlayerControls : MonoBehaviour
 
     private int damage = 1;
 
+    private List<Malignance> workTiles = new List<Malignance>();
+
     private void OnEnable()
     {
         InitInputActions();
@@ -43,7 +45,6 @@ public class PlayerControls : MonoBehaviour
 
     private void SetEvents()
     {
-        action.performed += HandleAction;
         attack.performed += HandleAttack;
     }
 
@@ -62,13 +63,14 @@ public class PlayerControls : MonoBehaviour
 
     private void RemoveEvents()
     {
-        action.performed -= HandleAction;
         attack.performed -= HandleAttack;
     }
 
     void Update()
     {
         HandleMoveCommand(move.ReadValue<Vector2>());
+        if(action.inProgress)
+            HandleAction();
     }
 
     private void HandleMoveCommand(Vector2 direction)
@@ -76,8 +78,12 @@ public class PlayerControls : MonoBehaviour
         body.linearVelocity = direction * speed;
     }
 
-    private void HandleAction(InputAction.CallbackContext context)
+    private void HandleAction()
     {
+        for (int i = workTiles.Count-1; i >= 0; i--)
+        {
+            workTiles[i].UpdateWork(Time.deltaTime * (instruments[(int)workTiles[i].InstrumentToWorkThis] ? 50f : 10f));
+        }
     }
 
     private void HandleAttack(InputAction.CallbackContext context)
@@ -90,5 +96,15 @@ public class PlayerControls : MonoBehaviour
             instruments[(int) type] = true;
         else
             damage = 5;
+    }
+
+    public void IncludeWorkTile(Malignance mal)
+    {
+        workTiles.Add(mal);
+    }
+
+    public void ExcludeWorkTile(Malignance mal)
+    {
+        workTiles.Remove(mal);
     }
 }
