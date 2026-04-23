@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bed : MonoBehaviour
 {
     [SerializeField]
-    private GameObject message, bedBlocker;
+    private GameObject message, bedBlocker, malCount;
 
     [SerializeField]
     private Rigidbody2D player;
@@ -23,16 +23,18 @@ public class Bed : MonoBehaviour
     {
         message.SetActive(false);
         bedBlocker.SetActive(true);
+        malCount.SetActive(true);
     }
 
     public void Sleep()
     {
         player.transform.position = transform.position;
-        StartCoroutine("DisablePlayer");
+        malCount.SetActive(false);
+        StartCoroutine("SleepCoroutine");
         OnSleep?.Invoke();
     }
 
-    private IEnumerator DisablePlayer()
+    private IEnumerator SleepCoroutine()
     {
         player.constraints = RigidbodyConstraints2D.FreezeAll;
         yield return new WaitForSeconds(sleepTime);

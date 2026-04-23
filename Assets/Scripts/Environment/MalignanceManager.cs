@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MalignanceManager : MonoBehaviour
@@ -8,8 +9,11 @@ public class MalignanceManager : MonoBehaviour
 
     [SerializeField]
     private Bed bed;
+    
+    [SerializeField]
+    private TextMeshProUGUI text;
 
-    private int decayProgress = 0;
+    private int decayProgress;
     
     private int maxActiveMalignancesToday;
     private int activeMalignancesRemained;
@@ -33,11 +37,18 @@ public class MalignanceManager : MonoBehaviour
         for(int layerIndex = 0; layerIndex <= decayProgress; layerIndex++)
             foreach (var mal in allMalignances[layerIndex].malignances)
                 mal.Reset();
+        UpdateText();
+    }
+
+    private void UpdateText()
+    {
+        text.text = activeMalignancesRemained + "/" + maxActiveMalignancesToday;
     }
 
     private void UprootOneMal()
     {
         activeMalignancesRemained--;
+        UpdateText();
     }
 
     private void StartNewDay()
