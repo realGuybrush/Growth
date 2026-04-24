@@ -31,7 +31,6 @@ public class Bed : MonoBehaviour
         player.transform.position = transform.position;
         malCount.SetActive(false);
         StartCoroutine("SleepCoroutine");
-        OnSleep?.Invoke();
     }
 
     private IEnumerator SleepCoroutine()
@@ -39,5 +38,6 @@ public class Bed : MonoBehaviour
         player.constraints = RigidbodyConstraints2D.FreezeAll;
         yield return new WaitForSeconds(sleepTime);
         player.constraints = RigidbodyConstraints2D.FreezeRotation;
+        OnSleep?.Invoke();
     }
 }

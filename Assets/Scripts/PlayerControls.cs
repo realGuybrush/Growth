@@ -18,7 +18,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField]
     private List<bool> instruments = new List<bool>(6){false, false, false, false, false, false};
 
-    private int damage = 1;
+    //private int damage = 1;
 
     private List<Malignance> workTiles = new List<Malignance>();
 
@@ -94,8 +94,8 @@ public class PlayerControls : MonoBehaviour
     {
         if (type != ItemType.Machete)
             instruments[(int) type] = true;
-        else
-            damage = 5;
+        //else
+            //damage = 5;
     }
 
     public void IncludeWorkTile(Malignance mal)

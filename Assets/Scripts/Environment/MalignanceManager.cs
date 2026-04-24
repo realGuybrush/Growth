@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MalignanceManager : MonoBehaviour
 {
@@ -59,15 +60,15 @@ public class MalignanceManager : MonoBehaviour
 
     private bool PrepareToDecayForAnotherDay()
     {    
-        if (activeMalignancesRemained / maxActiveMalignancesToday > 0.5f)
+        if (activeMalignancesRemained / (float)maxActiveMalignancesToday > 0.5f)
         {
             decayProgress++;
-            Debug.Log("You feel very uneasy.");
             if (decayProgress >= allMalignances.Count)
             {
                 Lose();
                 return false;
             }
+            DisappearingText.Instance.CallTextBox("For some reason I feel very uneasy.");
             maxActiveMalignancesToday += allMalignances[decayProgress].malignances.Count;
         }
         activeMalignancesRemained = maxActiveMalignancesToday;
@@ -77,6 +78,7 @@ public class MalignanceManager : MonoBehaviour
     private void Lose()
     {
         //change scene to losing scene
-        Debug.Log("You have lost.");
+        DisappearingText.Instance.CallTextBox("What was that?!");
+        SceneManager.LoadScene("LoseScene");
     }
 }
