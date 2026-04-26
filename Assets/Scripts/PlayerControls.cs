@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,7 +15,7 @@ public class PlayerControls : MonoBehaviour
     private float speed;
 
     [SerializeField]
-    private List<bool> instruments = new List<bool>(6){false, false, false, false, false, false};
+    private List<bool> instruments = new List<bool>(7){false, false, false, false, false, false, false};
 
     //private int damage = 1;
 
@@ -92,7 +91,7 @@ public class PlayerControls : MonoBehaviour
 
     public void EquipItem(ItemType type)
     {
-        if (type != ItemType.Machete)
+        //if (type != ItemType.Machete)
             instruments[(int) type] = true;
         //else
             //damage = 5;

@@ -12,6 +12,9 @@ public class Bed : MonoBehaviour
 
     [SerializeField]
     private float sleepTime = 4f;
+
+    [SerializeField]
+    private Animator animator;
     
     public event Action OnSleep = delegate { };
     private void OnTriggerEnter2D(Collider2D other)
@@ -38,6 +41,7 @@ public class Bed : MonoBehaviour
         player.constraints = RigidbodyConstraints2D.FreezeAll;
         yield return new WaitForSeconds(sleepTime);
         player.constraints = RigidbodyConstraints2D.FreezeRotation;
+        animator.SetBool("On", false);
         OnSleep?.Invoke();
     }
 }

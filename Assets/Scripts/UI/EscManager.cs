@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class EscManager : MonoBehaviour
 {
@@ -9,7 +10,10 @@ public class EscManager : MonoBehaviour
     private InputAction esc;
 
     [SerializeField]
-    private GameObject escMessage, sleepMessage, speech;
+    private GameObject escMessage;
+
+    [SerializeField]
+    private List<GameObject> otherMessages = new List<GameObject>();
 
     private void Awake()
     {
@@ -28,9 +32,14 @@ public class EscManager : MonoBehaviour
 
     private void HandleEsc(InputAction.CallbackContext obj)
     {
-        escMessage.SetActive(!escMessage.activeSelf && !sleepMessage.activeSelf && !speech.activeSelf);
-        speech.SetActive(false);
-        sleepMessage.SetActive(false);
+        bool activate = !escMessage.activeSelf;
+        if(otherMessages != null)
+            foreach (var message in otherMessages)
+            {
+                activate &= !message.activeSelf;
+                message.SetActive(false);
+            }
+        escMessage.SetActive(activate);
     }
 
     public void Exit()

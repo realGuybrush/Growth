@@ -15,9 +15,9 @@ public class Malignance : MonoBehaviour
     [SerializeField]
     private float defaultWorkTime;
 
-    private float workTime;
+    protected float workTime;
 
-    private PlayerControls player;
+    protected PlayerControls player;
     private static readonly int Glow = Animator.StringToHash("Glow");
     
     public static event Action OnUprooted = delegate { };
@@ -62,9 +62,14 @@ public class Malignance : MonoBehaviour
         {
             workTime = 0f;
             player.ExcludeWorkTile(this);
-            OnUprooted?.Invoke();
+            FinishWork();
         }
         SetTransparency();
+    }
+
+    protected virtual void FinishWork()
+    {
+        OnUprooted?.Invoke();
     }
 
     public bool Uprooted => sprite.color.a <= 0;

@@ -8,9 +8,6 @@ using UnityEngine.UI;
 public class DisappearingText : MonoBehaviour
 {
     public static DisappearingText Instance;
-
-    [SerializeField]
-    private RectTransform rect;
     
     [SerializeField]
     private Image sprite;

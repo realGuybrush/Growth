@@ -6,11 +6,15 @@ public class StartNopeScene : AppearifyText
 {
     [SerializeField]
     private AnimatorSetBool animator;
-    protected override void CommitDisappearing()
+
+    [SerializeField]
+    private Collider2D collider2D;
+    protected override void CommitDisappearing(Collider2D other)
     {
-        base.CommitDisappearing();
+        base.CommitDisappearing(other);
         gameObject.SetActive(true);
-        animator.SetBool();
+        collider2D.enabled = false;
+        animator.SetBool(true);
         StartCoroutine("ScrewThis");
     }
 

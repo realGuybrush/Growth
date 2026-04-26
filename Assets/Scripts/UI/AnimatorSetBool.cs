@@ -5,9 +5,9 @@ public class AnimatorSetBool : MonoBehaviour
     [SerializeField]
     private Animator animator;
 
-    public void SetBool()
+    public void SetBool(bool value)
     {
         //Yes, it cannot be done via UI. Who could've known?
-        animator.SetBool("On", true);
+        animator.SetBool("On", value);
     }
 }

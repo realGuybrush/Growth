@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DisappearByStep : MonoBehaviour
 {
@@ -10,25 +9,39 @@ public class DisappearByStep : MonoBehaviour
     private float disappearTime;
 
     private float currentDisappearTime;
-    private void OnTriggerEnter2D(Collider2D other)
+
+    private bool disappear;
+
+    private Color color;
+
+    private void OnEnable()
     {
-        CommitDisappearing();
+        disappear = false;
+        color = sprite != null ? sprite.color: Color.white;
     }
 
-    protected virtual void CommitDisappearing()
+    private void Update()
+    {
+        if(disappear)
+        {
+            currentDisappearTime -= Time.deltaTime;
+            sprite.color = new Color(color.r, color.g, color.b, currentDisappearTime/disappearTime);
+            if(currentDisappearTime <= 0)
+                gameObject.SetActive(false);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        CommitDisappearing(other);
+    }
+
+    protected virtual void CommitDisappearing(Collider2D other)
     {
         currentDisappearTime = disappearTime;
         if (sprite == null)
             gameObject.SetActive(false);
         else
-            StartCoroutine("Disappear");
-    }
-
-    private IEnumerator Disappear()
-    {
-        currentDisappearTime -= Time.deltaTime;
-        sprite.color = new Color(1f, 1f, 1f, currentDisappearTime/disappearTime);
-        yield return new WaitForSeconds(disappearTime);
-        gameObject.SetActive(false);
+            disappear = true;
     }
 }
